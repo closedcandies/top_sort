@@ -36,12 +36,17 @@ int main(int argc, const char * argv[]) {
     }
 
     for (int i = 0; i < numEdges; i++) {
-        std::string* from = new std::string;
-        std::getline(file, *from);
-        std::string* to = new std::string;
-        std::getline(file, *to);
+        std::string* data = new std::string;
+        std::getline(file, *data);
+        size_t delimiterPosition = data->find('-');
+        auto* from = new std::string(data->substr(0, delimiterPosition));
+        auto* to = new std::string(data->substr(delimiterPosition + 2, data->length()));
 
         graph.addEdge((void*)from, (void*)to);
+
+        delete data;
+        delete from;
+        delete to;
     }
 
     graph.topologicalSort();
